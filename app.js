@@ -23,12 +23,19 @@ const app = express();
 })();
 
 /* -------------------- CORS -------------------- */
-const whitelist = process.env.FRONTEND_URLS?.split(",").map((url) => url.trim());
+/* -------------------- CORS -------------------- */
+const whitelist = (process.env.FRONTEND_URLS || "http://localhost:5173")
+  .split(",")
+  .map((url) => url.trim());
 
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (!origin || whitelist.includes(origin)) return cb(null, true);
+      // Cho phép Postman/thunder client (origin === undefined) và origin nằm trong whitelist
+      if (!origin || whitelist.includes(origin)) {
+        return cb(null, true);
+      }
+      console.warn(`❌ Blocked CORS request from origin: ${origin}`);
       return cb(new Error("Not allowed by CORS"));
     },
     credentials: true,
