@@ -43,8 +43,10 @@ const sendMessage = async (req, res) => {
 
     res.json({ reply });
   } catch (err) {
-    console.error("Gemini error:", err.response?.data || err.message);
-    res.status(500).json({ error: "Gemini API error" });
+    const geminiError =
+      err.response?.data?.error?.message || err.message || "Lỗi không xác định";
+    console.error("Gemini error:", geminiError);
+    res.status(500).json({ error: geminiError });
   }
 };
 
