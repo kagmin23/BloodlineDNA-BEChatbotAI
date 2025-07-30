@@ -6,10 +6,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
-/* -------------------- APP INIT -------------------- */
 const app = express();
 
-/* -------------------- DATABASE -------------------- */
 (async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI, {
@@ -22,8 +20,7 @@ const app = express();
   }
 })();
 
-/* -------------------- CORS -------------------- */
-/* -------------------- CORS -------------------- */
+// cors
 const whitelist = (process.env.FRONTEND_URLS || "http://localhost:5173")
   .split(",")
   .map((url) => url.trim());
@@ -42,14 +39,12 @@ app.use(
   })
 );
 
-/* -------------------- MIDDLEWARE -------------------- */
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-/* -------------------- ROUTERS -------------------- */
 app.use("/", require("./routes/index"));
 app.use("/users", require("./routes/users"));
 app.use("/api/chatbotAI", require("./routes/chat.routes"));

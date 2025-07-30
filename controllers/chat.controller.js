@@ -1,9 +1,9 @@
 const axios = require("axios");
-const Chat = require("../models/chat.model"); // ✅ Import model
+const Chat = require("../models/chat.model");
 require("dotenv").config();
 
 const sendMessage = async (req, res) => {
-  const { message, userId } = req.body; // ✅ Thêm userId nếu có
+  const { message, userId } = req.body;
 
   if (!message) {
     return res.status(400).json({ error: "Missing message" });
@@ -50,7 +50,6 @@ const sendMessage = async (req, res) => {
   }
 };
 
-// ✅ Hàm để lấy lịch sử chat
 const getChatHistory = async (req, res) => {
   const { userId } = req.query;
 
